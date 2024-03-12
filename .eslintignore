@@ -1,11 +1,13 @@
-# 忽略目录
-build/
-tests/
-node_modules/
-
-# node 覆盖率文件
-coverage/
-
-# 忽略文件
-**/*-min.js
-**/*.min.js
+public
+dist
+*.d.ts
+/src/assets
+package.json
+eslint.config.js 
+.prettierrc.js
+commitlint.config.js
+postcss.config.js
+tailwind.config.ts
+stylelint.config.js
+src/components/ReSplitPane/iconfont
+src/components/ReFlowChart/src/assets/iconfont

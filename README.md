@@ -1,191 +1,215 @@
-![banner](https://raw.githubusercontent.com/d2-projects/d2-admin/master/docs/image/banner.png)
+<h1>vue-pure-admin</h1>
+
+![GitHub license](https://img.shields.io/github/license/pure-admin/vue-pure-admin?style=flat)
+![GitHub stars](https://img.shields.io/github/stars/pure-admin/vue-pure-admin?color=fa6470&style=flat)
+![GitHub forks](https://img.shields.io/github/forks/pure-admin/vue-pure-admin?style=flat)
+
+**中文** | [English](./README.en-US.md)
+
+## 简介
+
+`vue-pure-admin` 是一款开源免费且开箱即用的中后台管理系统模版。完全采用 `ECMAScript` 模块（`ESM`）规范来编写和组织代码，使用了最新的 `Vue3`、`Vite`、`Element-Plus`、`TypeScript`、`Pinia`、`Tailwindcss` 等主流技术开发
+
+## 精简版本（实际项目开发请用精简版本，提供 `非国际化` 、`国际化` 两个版本选择）
+
+精简版本是基于 [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) 提炼出的架子，包含主体功能，更适合实际项目开发，打包后的大小在全局引入 [element-plus](https://element-plus.org) 的情况下仍然低于 `2.3MB`，并且会永久同步完整版的代码。开启 `brotli` 压缩和 `cdn` 替换本地库模式后，打包大小低于 `350kb`
+
+[点我查看非国际化精简版本](https://github.com/pure-admin/pure-admin-thin)  
+[点我查看国际化精简版本](https://github.com/pure-admin/pure-admin-thin/tree/i18n)
+
+## 配套视频
+
+[点我查看快速开发教程](https://www.bilibili.com/video/BV1kg411v7QT)  
+[点我查看 UI 设计](https://www.bilibili.com/video/BV17g411T7rq)
+
+## 配套保姆级文档
+
+[点我查看 vue-pure-admin 文档](https://yiming_chang.gitee.io/pure-admin-doc)  
+[点我查看 @pureadmin/utils 文档](https://pure-admin-utils.netlify.app)
+
+## 优质服务、软件外包、赞助支持
+
+[点我查看详情](https://yiming_chang.gitee.io/pure-admin-doc/pages/service/)
+
+## `Tauri` 版本
+
+[点我查看 Tauri 版本](https://github.com/pure-admin/tauri-pure-admin)
+
+## `Electron` 版本
+
+[点我查看 Electron 版本](https://github.com/pure-admin/electron-pure-admin)
+
+## 预览
+
+[点我查看预览](https://yiming_chang.gitee.io/vue-pure-admin)
+
+`PC` 端
 
 <p align="center">
-	<a href="https://github.com/d2-projects/d2-admin/stargazers" target="_blank"><img src="https://img.shields.io/github/stars/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin/network/members" target="_blank"><img src="https://img.shields.io/github/forks/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin/issues" target="_blank"><img src="https://img.shields.io/github/issues/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin/issues?q=is%3Aissue+is%3Aclosed" target="_blank"><img src="https://img.shields.io/github/issues-closed/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin/pulls" target="_blank"><img src="https://img.shields.io/github/issues-pr/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin/pulls?q=is%3Apr+is%3Aclosed" target="_blank"><img src="https://img.shields.io/github/issues-pr-closed/d2-projects/d2-admin.svg"></a>
-	<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://img.shields.io/github/last-commit/d2-projects/d2-admin.svg"></a>
+  <img alt="PureAdmin" src="https://xiaoxian521.github.io/hyperlink/img/vue-pure-admin/1.jpg">
+  <br />
+  <img alt="PureAdmin" src="https://xiaoxian521.github.io/hyperlink/img/vue-pure-admin/2.jpg">
 </p>
+
+暗色风格
+
 <p align="center">
-	<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://visitor-badge.glitch.me/badge?page_id=d2-projects.d2-admin"></a>
-	<a href="https://github.com/d2-projects/d2-admin/releases" target="_blank"><img src="https://img.shields.io/github/release/d2-projects/d2-admin.svg"></a>
-	<a href="https://deepscan.io/dashboard#view=project&tid=8014&pid=10161&bid=136697"><img src="https://deepscan.io/api/teams/8014/projects/10161/branches/136697/badge/grade.svg" alt="DeepScan grade"></a>
+  <img alt="PureAdmin" src="https://xiaoxian521.github.io/hyperlink/img/vue-pure-admin/3.jpg">
+  <br />
+  <img alt="PureAdmin" src="https://xiaoxian521.github.io/hyperlink/img/vue-pure-admin/4.jpg">
 </p>
 
-[D2Admin](https://github.com/d2-projects/d2-admin) is a fully open source and free enterprise back-end product front-end integration solution, using the latest front-end technology stack, javascript files loading of local first screen less than 60kb, has prepared most of the project preparations, and with a lot of sample code to help the management system agile development.
+移动端
 
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/d2-projects/d2-admin)
+<p align="center">
+  <img alt="PureAdmin" src="https://xiaoxian521.github.io/hyperlink/img/vue-pure-admin/5.jpg">
+</p>
 
-[中文](https://github.com/d2-projects/d2-admin/blob/master/README.zh.md) | **English**
+### 使用 `Gitpod`
 
-## Preview
+在 `Gitpod`（适用于 `GitHub` 的免费在线开发环境）中打开项目，并立即开始编码.
 
-![Deploy preview](https://github.com/d2-projects/d2-admin/workflows/Deploy%20preview/badge.svg)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/a5dd4bbd-da3f-4145-98a9-8012577bdcf5/deploy-status)](https://app.netlify.com/sites/d2-admin/deploys)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pure-admin/vue-pure-admin)
 
-The following access addresses are built and deployed by the latest master branch code at the same time. The access effect is completely consistent. Please select the appropriate access link according to your own network situation.
+## 安装使用
 
-| server | link | server |
-| --- | --- | --- |
-| github | [Link](https://d2-projects.github.io/d2-admin) | GitHub pages |
-| netlify | [Link](https://d2-admin.netlify.com) | Netlify CDN |
+### 拉取代码
 
-## Document
+#### 推荐使用 `@pureadmin/cli` 脚手架
 
-[document on https://d2.pub](https://d2.pub/doc/d2-admin/)
+<br/>
+<img src="https://xiaoxian521.github.io/hyperlink/gif/pure-admin-cli.gif" alt="pure-admin-cli" />
 
-## Features
+1. 全局安装
 
-* Build with vue-cli3
-* First screen loading waiting animation
-* Five themes
-* Built-in UEditor rich text editor
-* Detailed documentation
-* Login and logout
-* Separate routing and menu settings
-* Foldable sidebar
-* Multi-national language
-* Rich text editor
-* Markdown editor
-* full screen
-* Fontawesome icon library
-* Icon selector
-* Automatically register SVG icon
-* Simulation data
-* Clipboard package
-* Chart library
-* Time and date calculation tool
-* Import Excel ( xlsx + csv )
-* Data export Excel ( xlsx + csv )
-* Data export text
-* Digital animation
-* Drag and drop the size of the block layout
-* Grid layout for drag and resize and position
-* Out-of-the-box page layout components
-* Load and parse markdown files
-* GitHub style markdown display component
-* markdown internal code highlighting
-* Expanded Baidu cloud link resolution and optimized display for markdown
-* Right click menu component
-* Custom scrollbars and scrolling controls
-* Common style extraction, convenient theme customization
-* Support temporary menu configuration
-* System function display module `1.1.4 +`
-* Multi-tab mode `1.1.4 +`
-* Beautify the scroll bar `1.1.4 +`
-* json view `1.1.4 +`
-* cookie wrapper `1.1.5 +`
-* Multi-tab global control API `1.1.5 +`
-* Menu Global Control API `1.1.5 +`
-* Multi-tab page close control support right-click menu `1.1.10 +`
-* Modular global state management `1.2.0 +`
-* Multiple data persistence methods: distinguish users, distinguish routes, page data snapshot function `1.2.0 +`
-* Support for menu system that jumps out of external links `1.2.0 +`
-* Support menu svg icon `1.3.0 +`
-* Logging and error catching `1.3.0 +`
-* Global menu search `1.3.0 +`
-* Custom login redirect `1.3.0 +`
-* Switch global base component size `1.4.0 +`
-* Page loading progress bar `1.4.1 +`
-* Adaptive top menu bar `1.4.7 +`
-* Support for merging cells when exporting xslx `1.5.4 +`
-* Multiple tabs support drag and drop sorting `1.8.0 +`
-* load only local JavaScript code less than 60kb on the homepage `1.8.0 +`
-* Built in build file volume checking tool `1.8.0 +`
-* Example of multi page `1.23.0 +`
-* Split chunks `1.23.0 +`
-
-## Other synchronous repositories
-
-| type | link |
-| --- | --- |
-| gitee | [https://gitee.com/d2-projects/d2-admin](https://gitee.com/d2-projects/d2-admin) |
-| coding | [https://d2-projects.coding.net/p/d2-projects/d/d2-admin/git](https://d2-projects.coding.net/p/d2-projects/d/d2-admin/git) |
-
-## Other versions
-
-| Name | HomePage  | Preview | Introduction |
-| --- | --- | --- | --- |
-| Starter template | [Link](https://github.com/d2-projects/d2-admin-start-kit) | - | The simplest version |
-
-## Open source backend implementation
-
-> The backend is contributed by the open source community. The latest version of D2Admin is not guaranteed. Please contact its open source author for related usage issues.
-
-| Name | technology | HomePage | Preview | Introduction |
-| --- | --- | --- | --- | --- |
-| django-vue-admin-pro | Django | [Link](https://github.com/dvadmin-pro/django-vue-admin-pro) | [Link](http://demo.pro.django-vue-admin.com) | Django + Jwt + D2Admin |
-| boot-admin | SpringBoot | [Link](https://github.com/hb0730/boot-admin) | [Link](http://admin.hb0730.com/) | Management system based on SpringBoot |
-| FlaskPermission | Flask | [Link](https://github.com/huguodong/flask-permission) | [Link](http://47.97.218.139:9999) | Permission management based on Flask |
-| CareyShop | ThinkPHP5 | [Link](https://github.com/dnyz520/careyshop-admin) | [Link](https://demo.careyshop.cn/admin/) | High Performance Mall Framework System for CareyShop |
-| jiiiiiin-security | Spring Boot | [Link](https://github.com/Jiiiiiin/jiiiiiin-security) | [Link](https://github.com/Jiiiiiin/jiiiiiin-security) | Content management infrastructure projects |
-| Taroco | Spring Cloud | [Link](https://github.com/liuht777/Taroco) | [Link](http://111.231.192.110/) | Complete microservice enterprise solution |
-| Aooms | Spring Cloud | [Link](https://gitee.com/cyb-javaer/Aooms) | [Link](https://www.yuboon.com/Aooms) | Extremely fast microservice development, not just as simple as JFinal |
-| GOA | Beego | [Link](https://github.com/Qsnh/goa) | [Link](http://goaio.vip/) | Online question answering system based on Beego + Vue |
-| CMDB | Django | [Link](https://github.com/CJFJack/django_vue_cmdb) | [Link](https://mp.weixin.qq.com/s?__biz=MzU1OTYzODA4Mw==&mid=2247484250&idx=1&sn=981024ac0580d8a3eba95742bd32b268) | authority system with dynamic menu |
-
-## Community projects
-
-> These projects are contributed by the open source community and are not guaranteed to use the latest version of D2Admin. Please contact their open source authors for related usage questions.
-
-| Name | HomePage | Preview | Introduction |
-| --- | --- | --- | --- |
-| d2-admin-xiya-go-cms | [Link](https://github.com/d2-projects/d2-admin-xiya-go-cms) | - | D2Admin + authority system + dynamic router |
-| d2-advance | [Link](https://github.com/d2-projects/d2-advance) | - | Technical exploration inspired by D2Admin |
-| d2-crud-plus | [Link](https://github.com/greper/d2-crud-plus) | [Link](http://qiniu.veryreader.com/D2CrudPlusExample/index.html) | Easy development of crud function |
-| d2-crud | [Link](https://github.com/d2-projects/d2-crud) | [Link]() | Encapsulation of common operations in tables |
-| d2-admin-pm | [Link](https://github.com/wjkang/d2-admin-pm) | [Link](http://jaycewu.coding.me/d2-admin-pm) | RBAC privilege management solution based on D2Admin |
-| LanBlog | [Link](https://github.com/sinksmell/LanBlog) | [Link](http://47.101.222.133/) | Vue + Beego restful api personal blog system |
-| d2-admin-start-kit-plus | [Link](https://github.com/hank-cp/d2-admin-start-kit-plus) | [Link](https://github.com/hank-cp/d2-admin-start-kit-plus) | D2Admin Start kit modular version |
-| d2-ribbons | [Link](https://github.com/d2-projects/d2-ribbons) | [Link](https://github.com/d2-projects/d2-ribbons) | Open source project logo Library |
-
-## Badge
-
-If your open source project is based on D2Admin development, please add the following badge to your README:
-
-<a href="https://github.com/d2-projects/d2-admin" target="_blank">
-	<img src="https://raw.githubusercontent.com/d2-projects/d2-admin/master/docs/image/d2-admin@2x.png" width="200">
-</a>
-
-Copy the following code into the README to:
-
-``` html
-<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://raw.githubusercontent.com/d2-projects/d2-admin/master/docs/image/d2-admin@2x.png" width="200"></a>
+```bash
+npm install -g @pureadmin/cli
 ```
 
-At the same time, you can report your project to us. We will place the excellent project in D2Admin and help you publicize it.
+2. 交互式选择模板并创建项目
 
-## Contributor
+```bash
+pure create
+```
 
-* [@FairyEver](https://github.com/FairyEver)
-* [@sunhaoxiang](https://github.com/sunhaoxiang)
-* [@Aysnine](https://github.com/Aysnine)
-* [@luchaohai](https://github.com/luchaohai)
-* [@han-feng](https://github.com/han-feng)
-* [@rongxingsun](https://github.com/rongxingsun)
-* [@dnyz520](https://github.com/dnyz520)
+[点我查看 @pureadmin/cli 脚手架详细用法](https://github.com/pure-admin/pure-admin-cli#pureadmincli)
 
-## Become a sponsor
+#### 从 `GitHub` 上拉取
 
-[Sponsor me on afdian.net](https://afdian.net/@fairyever)
+```bash
+git clone https://github.com/pure-admin/vue-pure-admin.git
+```
 
-## Sponsor
+#### 从 `Gitee` 上拉取
 
-**cochlea** | **Baron** | **苦行僧** | **吴地安宁** | **KingDong** | **sunyongmofang**
+```bash
+git clone https://gitee.com/yiming_chang/vue-pure-admin.git
+```
 
-## Visitor
+### 安装依赖
 
-![Total visitor](https://visitor-badge.glitch.me/badge?page_id=d2-projects.d2-admin)
+```bash
+cd vue-pure-admin
 
-> Total visitor since 2019.08.27
+pnpm install
+```
 
-## Star history
+### 启动平台
 
-[![Stargazers over time](https://starchart.cc/d2-projects/d2-admin.svg)](https://starchart.cc/d2-projects/d2-admin)
+```bash
+pnpm dev
+```
 
-## License
+### 项目打包
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fd2-projects%2Fd2-admin.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fd2-projects%2Fd2-admin?ref=badge_large)
+```bash
+pnpm build
+```
+
+## Docker 支持
+
+1. 自定义镜像名为 `vue-pure-admin` 的镜像（请注意下面命令末尾有一个点 `.` 表示使用当前路径下的 `Dockerfile` 文件，可根据实际情况指定路径）
+
+```bash
+docker build -t vue-pure-admin .
+```
+
+2. 端口映射并启动 `docker` 容器（`8080:80`：表示在容器中使用 `80` 端口，并将该端口转发到主机的 `8080` 端口；`pure-admin`：表示自定义容器名；`vue-pure-admin`：表示自定义镜像名）
+
+```bash
+docker run -dp 8080:80  --name pure-admin vue-pure-admin
+```
+
+操作完上面两个命令后，在浏览器打开 `http://localhost:8080` 即可预览
+
+当然也可以通过 [Docker Desktop](https://www.docker.com/products/docker-desktop/) 可视化界面去操作 `docker` 项目，如下图
+
+<p align="center">
+  <img alt="docker-desktop" width="100%" src="https://xiaoxian521.github.io/hyperlink/img/docker-desktop.jpg">
+</p>
+
+## 更新日志
+
+[CHANGELOG](./CHANGELOG.zh_CN.md)
+
+## 如何贡献
+
+非常欢迎您的加入！[提一个 Issue](https://github.com/pure-admin/vue-pure-admin/issues/new/choose) 或者提交一个 `Pull Request`
+
+**Pull Request:**
+
+1. Fork 代码!
+2. 创建自己的分支: `git checkout -b feat/xxxx`
+3. 提交您的修改: `git commit -am 'feat(function): add xxxxx'`
+4. 推送您的分支: `git push origin feat/xxxx`
+5. 提交`pull request`
+
+## `Git` 贡献提交规范
+
+参考 [vue](https://github.com/vuejs/vue/blob/dev/.github/COMMIT_CONVENTION.md) 规范 ([Angular](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular))
+
+- `feat` 增加新功能
+- `fix` 修复问题/BUG
+- `style` 代码风格相关无影响运行结果的
+- `perf` 优化/性能提升
+- `refactor` 重构
+- `revert` 撤销修改
+- `test` 测试相关
+- `docs` 文档/注释
+- `chore` 依赖更新/脚手架配置修改等
+- `workflow` 工作流改进
+- `ci` 持续集成
+- `types` 类型定义文件更改
+- `wip` 开发中
+
+## 浏览器支持
+
+本地开发推荐使用 `Chrome`、`Edge`、`Firefox` 浏览器，作者常用的是最新版 `Chrome` 浏览器  
+实际使用中感觉 `Firefox` 在动画上要比别的浏览器更加丝滑，只是作者用 `Chrome` 已经习惯了，看个人爱好选择吧  
+更详细的浏览器兼容性支持请看 [Vue 支持哪些浏览器？](https://cn.vuejs.org/about/faq.html#what-browsers-does-vue-support) 和 [Vite 浏览器兼容性](https://cn.vitejs.dev/guide/build#browser-compatibility)
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                                                不支持                                                                                                |                                                                                              最后两个版本                                                                                              |                                                                                                   最后两个版本                                                                                                    |                                                                                                 最后两个版本                                                                                                  |                                                                                                 最后两个版本                                                                                                  |
+
+## 维护者
+
+[xiaoxian521](https://github.com/xiaoxian521)、[Ten-K](https://github.com/Ten-K)
+
+## 许可证
+
+完全免费开源
+
+[MIT © 2020-present, pure-admin](./LICENSE)
+
+## `Star`
+
+非常感谢留下星星的好心人，感谢您的支持 :heart:
+
+[![Stargazers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/stargazers)
+
+## `Fork`
+
+瞧，那些 `小哥哥` 、`小姐姐` 认真 `学习` 的样子真滴是 `哎呦不错哦` :heart:
+
+[![Forkers repo roster for @pure-admin/vue-pure-admin](https://bytecrank.com/nastyox/reporoster/php/forkersSVG.php?user=pure-admin&repo=vue-pure-admin)](https://github.com/pure-admin/vue-pure-admin/network/members)
