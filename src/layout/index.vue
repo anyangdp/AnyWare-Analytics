@@ -1,233 +1,303 @@
-<script setup lang="ts">
-import "animate.css";
-// 引入 src/components/ReIcon/src/offlineIcon.ts 文件中所有使用addIcon添加过的本地图标
-import "@/components/ReIcon/src/offlineIcon";
-import { setType } from "./types";
-import { useLayout } from "./hooks/useLayout";
-import { useAppStoreHook } from "@/store/modules/app";
-import { useSettingStoreHook } from "@/store/modules/settings";
-import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
-import {
-  h,
-  ref,
-  reactive,
-  computed,
-  onMounted,
-  onBeforeMount,
-  defineComponent
-} from "vue";
-import {
-  useDark,
-  useGlobal,
-  deviceDetection,
-  useResizeObserver
-} from "@pureadmin/utils";
-
-import navbar from "./components/navbar.vue";
-import tag from "./components/tag/index.vue";
-import appMain from "./components/appMain.vue";
-import setting from "./components/setting/index.vue";
-import Vertical from "./components/sidebar/vertical.vue";
-import Horizontal from "./components/sidebar/horizontal.vue";
-import backTop from "@/assets/svg/back_top.svg?component";
-
-const appWrapperRef = ref();
-const { isDark } = useDark();
-const { layout } = useLayout();
-const isMobile = deviceDetection();
-const pureSetting = useSettingStoreHook();
-const { $storage } = useGlobal<GlobalPropertiesApi>();
-
-const set: setType = reactive({
-  sidebar: computed(() => {
-    return useAppStoreHook().sidebar;
-  }),
-
-  device: computed(() => {
-    return useAppStoreHook().device;
-  }),
-
-  fixedHeader: computed(() => {
-    return pureSetting.fixedHeader;
-  }),
-
-  classes: computed(() => {
-    return {
-      hideSidebar: !set.sidebar.opened,
-      openSidebar: set.sidebar.opened,
-      withoutAnimation: set.sidebar.withoutAnimation,
-      mobile: set.device === "mobile"
-    };
-  }),
-
-  hideTabs: computed(() => {
-    return $storage?.configure.hideTabs;
-  })
-});
-
-function setTheme(layoutModel: string) {
-  window.document.body.setAttribute("layout", layoutModel);
-  $storage.layout = {
-    layout: `${layoutModel}`,
-    theme: $storage.layout?.theme,
-    darkMode: $storage.layout?.darkMode,
-    sidebarStatus: $storage.layout?.sidebarStatus,
-    epThemeColor: $storage.layout?.epThemeColor,
-    themeColor: $storage.layout?.themeColor,
-    overallStyle: $storage.layout?.overallStyle
-  };
-}
-
-function toggle(device: string, bool: boolean) {
-  useAppStoreHook().toggleDevice(device);
-  useAppStoreHook().toggleSideBar(bool, "resize");
-}
-
-// 判断是否可自动关闭菜单栏
-let isAutoCloseSidebar = true;
-
-useResizeObserver(appWrapperRef, entries => {
-  if (isMobile) return;
-  const entry = entries[0];
-  const [{ inlineSize: width }] = entry.borderBoxSize;
-  width <= 760 ? setTheme("vertical") : setTheme(useAppStoreHook().layout);
-  /** width app-wrapper类容器宽度
-   * 0 < width <= 760 隐藏侧边栏
-   * 760 < width <= 990 折叠侧边栏
-   * width > 990 展开侧边栏
-   */
-  if (width > 0 && width <= 760) {
-    toggle("mobile", false);
-    isAutoCloseSidebar = true;
-  } else if (width > 760 && width <= 990) {
-    if (isAutoCloseSidebar) {
-      toggle("desktop", false);
-      isAutoCloseSidebar = false;
-    }
-  } else if (width > 990 && !set.sidebar.isClickCollapse) {
-    toggle("desktop", true);
-    isAutoCloseSidebar = true;
-  } else {
-    toggle("desktop", false);
-    isAutoCloseSidebar = false;
-  }
-});
-
-onMounted(() => {
-  if (isMobile) {
-    toggle("mobile", false);
-  }
-});
-
-onBeforeMount(() => {
-  useDataThemeChange().dataThemeChange($storage.layout?.overallStyle);
-});
-
-const layoutHeader = defineComponent({
-  render() {
-    return h(
-      "div",
-      {
-        class: { "fixed-header": set.fixedHeader },
-        style: [
-          set.hideTabs && layout.value.includes("horizontal")
-            ? isDark.value
-              ? "box-shadow: 0 1px 4px #0d0d0d"
-              : "box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08)"
-            : ""
-        ]
-      },
-      {
-        default: () => [
-          !pureSetting.hiddenSideBar &&
-          (layout.value.includes("vertical") || layout.value.includes("mix"))
-            ? h(navbar)
-            : null,
-          !pureSetting.hiddenSideBar && layout.value.includes("horizontal")
-            ? h(Horizontal)
-            : null,
-          h(tag)
-        ]
-      }
-    );
-  }
-});
-</script>
-
 <template>
-  <div ref="appWrapperRef" :class="['app-wrapper', set.classes]">
-    <div
-      v-show="
-        set.device === 'mobile' &&
-        set.sidebar.opened &&
-        layout.includes('vertical')
-      "
-      class="app-mask"
-      @click="useAppStoreHook().toggleSideBar()"
-    />
-    <Vertical
-      v-show="
-        !pureSetting.hiddenSideBar &&
-        (layout.includes('vertical') || layout.includes('mix'))
-      "
-    />
-    <div
-      :class="[
-        'main-container',
-        pureSetting.hiddenSideBar ? 'main-hidden' : ''
-      ]"
-    >
-      <div v-if="set.fixedHeader">
-        <layout-header />
-        <!-- 主体内容 -->
-        <app-main :fixed-header="set.fixedHeader" />
-      </div>
-      <el-scrollbar v-else>
-        <el-backtop
-          title="回到顶部"
-          target=".main-container .el-scrollbar__wrap"
-        >
-          <backTop />
-        </el-backtop>
-        <layout-header />
-        <!-- 主体内容 -->
-        <app-main :fixed-header="set.fixedHeader" />
-      </el-scrollbar>
-    </div>
-    <!-- 系统设置 -->
-    <setting />
-  </div>
+	<!-- 通栏布局 -->
+	<template v-if="layout=='header'">
+		<header class="adminui-header">
+			<div class="adminui-header-left">
+				<div class="logo-bar">
+					<img class="logo" src="img/logo.png">
+					<span>{{ $CONFIG.APP_NAME }}</span>
+				</div>
+				<ul v-if="!ismobile" class="nav">
+					<li v-for="item in menu" :key="item" :class="pmenu.path==item.path?'active':''" @click="showMenu(item)">
+						<el-icon><component :is="item.meta.icon || 'el-icon-menu'" /></el-icon>
+						<span>{{ item.meta.title }}</span>
+					</li>
+				</ul>
+			</div>
+			<div class="adminui-header-right">
+				<userbar></userbar>
+			</div>
+		</header>
+		<section class="aminui-wrapper">
+			<div v-if="!ismobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+				<div v-if="!menuIsCollapse" class="adminui-side-top">
+					<h2>{{ pmenu.meta.title }}</h2>
+				</div>
+				<div class="adminui-side-scroll">
+					<el-scrollbar>
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
+							<NavMenu :navMenus="nextMenu"></NavMenu>
+						</el-menu>
+					</el-scrollbar>
+				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
+				</div>
+			</div>
+			<Side-m v-if="ismobile"></Side-m>
+			<div class="aminui-body el-container">
+				<Topbar v-if="!ismobile"></Topbar>
+				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<div class="adminui-main" id="adminui-main">
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
+					<iframe-view></iframe-view>
+				</div>
+			</div>
+		</section>
+	</template>
+
+	<!-- 经典布局 -->
+	<template v-else-if="layout=='menu'">
+		<header class="adminui-header">
+			<div class="adminui-header-left">
+				<div class="logo-bar">
+					<img class="logo" src="img/logo.png">
+					<span>{{ $CONFIG.APP_NAME }}</span>
+				</div>
+			</div>
+			<div class="adminui-header-right">
+				<userbar></userbar>
+			</div>
+		</header>
+		<section class="aminui-wrapper">
+			<div v-if="!ismobile" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+				<div class="adminui-side-scroll">
+					<el-scrollbar>
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
+							<NavMenu :navMenus="menu"></NavMenu>
+						</el-menu>
+					</el-scrollbar>
+				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
+				</div>
+			</div>
+			<Side-m v-if="ismobile"></Side-m>
+			<div class="aminui-body el-container">
+				<Topbar v-if="!ismobile"></Topbar>
+				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<div class="adminui-main" id="adminui-main">
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
+					<iframe-view></iframe-view>
+				</div>
+			</div>
+		</section>
+	</template>
+
+	<!-- 功能坞布局 -->
+	<template v-else-if="layout=='dock'">
+		<header class="adminui-header">
+			<div class="adminui-header-left">
+				<div class="logo-bar">
+					<img class="logo" src="img/logo.png">
+					<span>{{ $CONFIG.APP_NAME }}</span>
+				</div>
+			</div>
+			<div class="adminui-header-right">
+				<div v-if="!ismobile" class="adminui-header-menu">
+					<el-menu mode="horizontal" :default-active="active" router background-color="#222b45" text-color="#fff" active-text-color="var(--el-color-primary)">
+						<NavMenu :navMenus="menu"></NavMenu>
+					</el-menu>
+				</div>
+				<Side-m v-if="ismobile"></Side-m>
+				<userbar></userbar>
+			</div>
+		</header>
+		<section class="aminui-wrapper">
+			<div class="aminui-body el-container">
+				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<div class="adminui-main" id="adminui-main">
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
+					<iframe-view></iframe-view>
+				</div>
+			</div>
+		</section>
+	</template>
+
+	<!-- 默认布局 -->
+	<template v-else>
+		<section class="aminui-wrapper">
+			<div v-if="!ismobile" class="aminui-side-split">
+				<div class="aminui-side-split-top">
+					<router-link :to="$CONFIG.DASHBOARD_URL">
+						<img class="logo" :title="$CONFIG.APP_NAME" src="img/logo-r.png">
+					</router-link>
+				</div>
+				<div class="adminui-side-split-scroll">
+					<el-scrollbar>
+						<ul>
+							<li v-for="item in menu" :key="item" :class="pmenu.path==item.path?'active':''"
+								@click="showMenu(item)">
+								<el-icon><component :is="item.meta.icon || el-icon-menu" /></el-icon>
+								<p>{{ item.meta.title }}</p>
+							</li>
+						</ul>
+					</el-scrollbar>
+				</div>
+			</div>
+			<div v-if="!ismobile && nextMenu.length>0 || !pmenu.component" :class="menuIsCollapse?'aminui-side isCollapse':'aminui-side'">
+				<div v-if="!menuIsCollapse" class="adminui-side-top">
+					<h2>{{ pmenu.meta.title }}</h2>
+				</div>
+				<div class="adminui-side-scroll">
+					<el-scrollbar>
+						<el-menu :default-active="active" router :collapse="menuIsCollapse" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED">
+							<NavMenu :navMenus="nextMenu"></NavMenu>
+						</el-menu>
+					</el-scrollbar>
+				</div>
+				<div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+					<el-icon><el-icon-expand v-if="menuIsCollapse"/><el-icon-fold v-else /></el-icon>
+				</div>
+			</div>
+			<Side-m v-if="ismobile"></Side-m>
+			<div class="aminui-body el-container">
+				<Topbar>
+					<userbar></userbar>
+				</Topbar>
+				<Tags v-if="!ismobile && layoutTags"></Tags>
+				<div class="adminui-main" id="adminui-main">
+					<router-view v-slot="{ Component }">
+					    <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+					        <component :is="Component" :key="$route.fullPath" v-if="$store.state.keepAlive.routeShow"/>
+					    </keep-alive>
+					</router-view>
+					<iframe-view></iframe-view>
+				</div>
+			</div>
+		</section>
+	</template>
+
+	<div class="main-maximize-exit" @click="exitMaximize"><el-icon><el-icon-close /></el-icon></div>
+
+	<div class="layout-setting" @click="openSetting"><el-icon><el-icon-brush-filled /></el-icon></div>
+
+	<el-drawer title="布局实时演示" v-model="settingDialog" :size="400" append-to-body destroy-on-close>
+		<setting></setting>
+	</el-drawer>
 </template>
 
-<style lang="scss" scoped>
-.app-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+<script>
+	import SideM from './components/sideM.vue';
+	import Topbar from './components/topbar.vue';
+	import Tags from './components/tags.vue';
+	import NavMenu from './components/NavMenu.vue';
+	import userbar from './components/userbar.vue';
+	import setting from './components/setting.vue';
+	import iframeView from './components/iframeView.vue';
 
-  &::after {
-    display: table;
-    clear: both;
-    content: "";
-  }
-
-  &.mobile.openSidebar {
-    position: fixed;
-    top: 0;
-  }
-}
-
-.app-mask {
-  position: absolute;
-  top: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.3;
-}
-
-.re-screen {
-  margin-top: 12px;
-}
-</style>
+	export default {
+		name: 'index',
+		components: {
+			SideM,
+			Topbar,
+			Tags,
+			NavMenu,
+			userbar,
+			setting,
+			iframeView
+		},
+		data() {
+			return {
+				settingDialog: false,
+				menu: [],
+				nextMenu: [],
+				pmenu: {},
+				active: ''
+			}
+		},
+		computed:{
+			ismobile(){
+				return this.$store.state.global.ismobile
+			},
+			layout(){
+				return this.$store.state.global.layout
+			},
+			layoutTags(){
+				return this.$store.state.global.layoutTags
+			},
+			menuIsCollapse(){
+				return this.$store.state.global.menuIsCollapse
+			}
+		},
+		created() {
+			this.onLayoutResize();
+			window.addEventListener('resize', this.onLayoutResize);
+			var menu = this.$router.sc_getMenu();
+			this.menu = this.filterUrl(menu);
+			this.showThis()
+		},
+		watch: {
+			$route() {
+				this.showThis()
+			},
+			layout: {
+				handler(val){
+					document.body.setAttribute('data-layout', val)
+				},
+				immediate: true,
+			}
+		},
+		methods: {
+			openSetting(){
+				this.settingDialog = true;
+			},
+			onLayoutResize(){
+				this.$store.commit("SET_ismobile", document.body.clientWidth < 992)
+			},
+			//路由监听高亮
+			showThis(){
+				this.pmenu = this.$route.meta.breadcrumb ? this.$route.meta.breadcrumb[0] : {}
+				this.nextMenu = this.filterUrl(this.pmenu.children);
+				this.$nextTick(()=>{
+					this.active = this.$route.meta.active || this.$route.fullPath;
+				})
+			},
+			//点击显示
+			showMenu(route) {
+				this.pmenu = route;
+				this.nextMenu = this.filterUrl(route.children);
+				if((!route.children || route.children.length == 0) && route.component){
+					this.$router.push({path: route.path})
+				}
+			},
+			//转换外部链接的路由
+			filterUrl(map){
+				var newMap = []
+				map && map.forEach(item => {
+					item.meta = item.meta?item.meta:{};
+					//处理隐藏
+					if(item.meta.hidden || item.meta.type=="button"){
+						return false
+					}
+					//处理http
+					if(item.meta.type=='iframe'){
+						item.path = `/i/${item.name}`;
+					}
+					//递归循环
+					if(item.children&&item.children.length > 0){
+						item.children = this.filterUrl(item.children)
+					}
+					newMap.push(item)
+				})
+				return newMap;
+			},
+			//退出最大化
+			exitMaximize(){
+				document.getElementById('app').classList.remove('main-maximize')
+			}
+		}
+	}
+</script>

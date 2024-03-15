@@ -1,51 +1,46 @@
 <template>
-  <el-config-provider :locale="currentLocale">
-    <router-view />
-    <ReDialog />
-  </el-config-provider>
+	<el-config-provider :locale="locale" :size="config.size" :zIndex="config.zIndex" :button="config.button">
+		<router-view></router-view>
+	</el-config-provider>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { checkVersion } from "version-rocket";
-import { ElConfigProvider } from "element-plus";
-import en from "element-plus/dist/locale/en.mjs";
-import { ReDialog } from "@/components/ReDialog";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+<script>
+	import colorTool from '@/utils/color'
 
-export default defineComponent({
-  name: "app",
-  components: {
-    [ElConfigProvider.name]: ElConfigProvider,
-    ReDialog
-  },
-  computed: {
-    currentLocale() {
-      return this.$storage.locale?.locale === "zh" ? zhCn : en;
-    }
-  },
-  beforeCreate() {
-    const { version, name: title } = __APP_INFO__.pkg;
-    const { VITE_PUBLIC_PATH, MODE } = import.meta.env;
-    // https://github.com/guMcrey/version-rocket/blob/main/README.zh-CN.md#api
-    if (MODE === "production") {
-      // 版本实时更新检测，只作用于线上环境
-      checkVersion(
-        // config
-        {
-          // 5分钟检测一次版本
-          pollingTime: 300000,
-          localPackageVersion: version,
-          originVersionFileUrl: `${location.origin}${VITE_PUBLIC_PATH}version.json`
-        },
-        // options
-        {
-          title,
-          description: "检测到新版本",
-          buttonText: "立即更新"
-        }
-      );
-    }
-  }
-});
+	export default {
+		name: 'App',
+		data() {
+			return {
+				config: {
+					size: "default",
+					zIndex: 2000,
+					button: {
+						autoInsertSpace: false
+					}
+				}
+			}
+		},
+		computed: {
+			locale(){
+				return this.$i18n.messages[this.$i18n.locale].el
+			},
+		},
+		created() {
+			//设置主题颜色
+			const app_color = this.$CONFIG.COLOR || this.$TOOL.data.get('APP_COLOR')
+			if(app_color){
+				document.documentElement.style.setProperty('--el-color-primary', app_color);
+				for (let i = 1; i <= 9; i++) {
+					document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(app_color,i/10));
+				}
+				for (let i = 1; i <= 9; i++) {
+					document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(app_color,i/10));
+				}
+			}
+		}
+	}
 </script>
+
+<style lang="scss">
+	@import '@/style/style.scss';
+</style>
